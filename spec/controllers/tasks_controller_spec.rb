@@ -36,4 +36,14 @@ RSpec.describe TasksController, type: :controller do
 			expect(Task.last.title).to eq("Fix things")
 		end
 	end
+
+	describe "tasks#destroy" do
+		it "should remove tasks when destroy button is clicked" do
+			task = FactoryBot.create(:task, done: false)
+			delete :destroy, params: {id: task.id}
+			expect(response).to have_http_status(:success)
+
+		end
+
+	end
 end

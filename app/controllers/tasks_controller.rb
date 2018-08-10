@@ -14,6 +14,10 @@ class TasksController < ApplicationController
 		render json: task
 	end
 
+	def destroy
+		task = Task.find(params[:id])
+	end
+
 	private
 
 	def task_params

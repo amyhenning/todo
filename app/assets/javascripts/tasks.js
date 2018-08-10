@@ -1,17 +1,16 @@
 $(function() {
+	function taskHtml(task) {
+		var checkedStatus = task.done ? "checked" : "";
+    var liClass = task.done ? "completed" : "";
+    var liElement = '<li id="listItem-' + task.id + '" class="' + liClass + '">' +
+    '<div class="view"><input class="toggle" type="checkbox"' +
+      " data-id='" + task.id + "'" +
+      checkedStatus +
+      '><label>' +
+       task.title +
+       '</label><button class="destroy"></button></div></li>';
 
-		function taskHtml(task) {
-			var checkedStatus = task.done ? "checked" : "";
-	    var liClass = task.done ? "completed" : "";
-	    var liElement = '<li id="listItem-' + task.id + '" class="' + liClass + '">' +
-	    '<div class="view"><input class="toggle" type="checkbox"' +
-	      " data-id='" + task.id + "'" +
-	      checkedStatus +
-	      '><label>' +
-	       task.title +
-	       '</label><button class="destroy"></button></div></li>';
-
-	    return liElement;
+    return liElement;
 	}
 
 	function toggleTask(e) {
@@ -30,7 +29,7 @@ $(function() {
 				$li.replaceWith(liHtml);
 				$('.toggle').change(toggleTask);
 			});
-	}
+		}
 
 		$.get("/tasks").success( function( data ) {
 			var htmlString = "";
@@ -58,5 +57,27 @@ $(function() {
 				$('.toggle').click(toggleTask);
 				$('.new-todo').val('');
 			});
+
+			// should this be its own event handler?
+		$.destroy("/tasks" + itemId, {
+			_method: "DESTROY",
+			// not sure if this is necessary for destrying a whole task?
+			task: {
+				done: doneValue
+			}
+		}).success(function(data) {
+			var liHtml = taskHtml(data);
+			$(liHtml).remove();
 		});
+
+		});
+
+	// below are some random lines of code that I tried to put together...
+	// function removeTask(e) {
+	// 	var itemId = $(e.target).data("id");
+	// 	// $('button').click(function() {
+	// 	// 	$(taskHtml(itemId).remove();
+	// 	// }
+
+
 	});
