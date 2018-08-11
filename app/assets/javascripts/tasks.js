@@ -8,7 +8,7 @@ $(function() {
       checkedStatus +
       '><label>' +
        task.title +
-       '</label><button class="destroy"></button></div></li>';
+       '</label><button class="destroy" data-id="' + task.id + '"></button></div></li>';
 
     return liElement;
 	}
@@ -31,53 +31,55 @@ $(function() {
 			});
 		}
 
-		$.get("/tasks").success( function( data ) {
+	$.get("/tasks").success( function( data ) {
+		var htmlString = "";
+		$.each(data, function(index, task) {
+			htmlString += taskHtml(task);
+		});
+		var ulTodos = $('.todo-list');
+		ulTodos.html(htmlString);
+
+		$('.toggle').change(toggleTask);
+	});
+
+	$('#new-form').submit(function(event) {
+		event.preventDefault();
+		var textbox = $('.new-todo');
+		var payload = {
+			task: {
+				title: textbox.val()
+			}
+		};
+		$.post("/tasks", payload).success(function(data) {
+			var htmlString = taskHtml(data);
+			var ulTodos = $('.todo-list');
+			ulTodos.append(htmlString);
+			$('.toggle').click(toggleTask);
+			$('.new-todo').val('');
+		});
+	});
+	
+	$('body').on('click', '.destroy', function(e) {
+		var itemId = $(e.target).data("id");
+		// $(taskHtml(itemId)).remove();
+		$.ajax({
+
+			url: "/tasks/" + itemId,
+			method: "DELETE"
+			// not sure if this is necessary for destrying a whole task?
+			// task: {
+			// 	done: doneValue
+			// }
+		}).success(function(data) {
+			// try moving into a named function
+			// add another event listener to the page - more practice with this, highlighting possibly
 			var htmlString = "";
 			$.each(data, function(index, task) {
 				htmlString += taskHtml(task);
 			});
 			var ulTodos = $('.todo-list');
 			ulTodos.html(htmlString);
-
-			$('.toggle').change(toggleTask);
-		});
-
-		$('#new-form').submit(function(event) {
-			event.preventDefault();
-			var textbox = $('.new-todo');
-			var payload = {
-				task: {
-					title: textbox.val()
-				}
-			};
-			$.post("/tasks", payload).success(function(data) {
-				var htmlString = taskHtml(data);
-				var ulTodos = $('.todo-list');
-				ulTodos.append(htmlString);
-				$('.toggle').click(toggleTask);
-				$('.new-todo').val('');
 			});
-
-			// should this be its own event handler?
-		$.destroy("/tasks" + itemId, {
-			_method: "DESTROY",
-			// not sure if this is necessary for destrying a whole task?
-			task: {
-				done: doneValue
-			}
-		}).success(function(data) {
-			var liHtml = taskHtml(data);
-			$(liHtml).remove();
-		});
-
-		});
-
-	// below are some random lines of code that I tried to put together...
-	// function removeTask(e) {
-	// 	var itemId = $(e.target).data("id");
-	// 	// $('button').click(function() {
-	// 	// 	$(taskHtml(itemId).remove();
-	// 	// }
-
-
-	});
+	})
+	
+});
