@@ -3,7 +3,7 @@ $(function() {
 		var checkedStatus = task.done ? "checked" : "";
     var liClass = task.done ? "completed" : '';
     var liElement = '<li id="listItem-' + task.id + '" class="' + liClass + '">' +
-    '<div class="view"><input class="toggle" type="checkbox"' + " data-id='" + task.id + "'" + checkedStatus + '><label>' + task.title + '</label><button class="destroy" data-id="' + task.id + '"></button></div></li>';
+    '<div class="view"><input class="toggle" type="checkbox"' + " data-id='" + task.id + "'" + checkedStatus + '><label id="' + task.id + '">' + task.title + '</label><button class="destroy" data-id="' + task.id + '"></button></div></li>';
     return liElement;
 	}
 
@@ -50,7 +50,7 @@ $(function() {
 			$('.new-todo').val('');
 		});
 	});
-	
+
 	$('body').on('click', '.destroy', function(e) {
 		var itemId = $(e.target).data("id");
 		// $(taskHtml(itemId)).remove();
@@ -69,7 +69,8 @@ $(function() {
 			});
 	});
 
-	$('body').on('dblclick', '.view', function(e) {
-		$('.view').css("background", "yellow");
+	$('body').on('dblclick', 'label', function(e) {
+		var labelId = $(e.target.id)
+		$('#' + labelId.selector).toggleClass("background-yellow")
 	});
 });
