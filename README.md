@@ -1,24 +1,17 @@
-# README
+# ToDo
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+ToDo is a single-page to-do list application that uses jQuery to allow for dynamic creation, status updates, deletion, and highlighting of tasks.
 
-Things you may want to cover:
+## Features
 
-* Ruby version
+* Double-click any task to highlight or un-highlight it
 
-* System dependencies
+* Create, update, and delete tasks without page refreshes
 
-* Configuration
+## Screenshots
 
-* Database creation
+![unhighlighted](https://github.com/amyhenning/todo/blob/master/app/assets/images/unhighlighted.png?raw=true)
+List both completed and incomplete tasks; delete any task dynamically by clicking on the red 'x'
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+![highlighted](https://github.com/amyhenning/todo/blob/master/app/assets/images/highlighted.png?raw=true)
+Toggle highlighting tasks by double-clicking
