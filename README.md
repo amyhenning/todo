@@ -11,7 +11,7 @@ ToDo is a single-page to-do list application that uses jQuery to allow for dynam
 ## Screenshots
 
 ![unhighlighted](https://github.com/amyhenning/todo/blob/master/app/assets/images/unhighlighted.png?raw=true)
-List both completed and incomplete tasks; delete any task dynamically by clicking on the red 'x'
+List both complete and incomplete tasks; delete any task dynamically by clicking on the red 'x' that appears when hovering over a task's row
 
 ![highlighted](https://github.com/amyhenning/todo/blob/master/app/assets/images/highlighted.png?raw=true)
 Toggle highlighting tasks by double-clicking
